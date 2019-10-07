@@ -3,7 +3,7 @@ package io.gierla.typedrecyclerview
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.disposables.CompositeDisposable
 
 open class TypedRecyclerViewAdapter : RecyclerView.Adapter<CompositeViewHolder>() {
 

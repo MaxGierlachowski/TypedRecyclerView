@@ -1,7 +1,7 @@
 package io.gierla.typedrecyclerview
 
 import android.view.ViewGroup
-import io.reactivex.rxjava3.disposables.CompositeDisposable
+import io.reactivex.disposables.CompositeDisposable
 
 interface TypedViewHolder {
     fun onCreateViewHolder(parent: ViewGroup): CompositeViewHolder
