@@ -3,14 +3,13 @@ package io.gierla.typedrecyclerview
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
-import io.reactivex.disposables.CompositeDisposable
 
 open class TypedRecyclerViewAdapter : RecyclerView.Adapter<CompositeViewHolder>() {
 
     var items = listOf<TypedRecyclerViewItem>()
         private set
 
-    val lifecycleDisposable = CompositeDisposable()
+    val lifecycleDisposable = DisposableHolder()
 
     private val viewHolderTypes = hashMapOf<Int, TypedViewHolder>()
 
