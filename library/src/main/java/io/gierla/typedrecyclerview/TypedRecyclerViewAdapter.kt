@@ -17,10 +17,13 @@ open class TypedRecyclerViewAdapter : RecyclerView.Adapter<CompositeViewHolder>(
         viewHolderTypes[type] = typedViewHolder
     }
 
+    var oldItems = mutableListOf<TypedRecyclerViewItem>()
+
     fun dispatchItems(typedItems: List<TypedRecyclerViewItem>) {
-        val newItems = listOf(*typedItems.toTypedArray())
-        DiffUtil.calculateDiff(DiffCallback(this.items, newItems)).dispatchUpdatesTo(this)
-        this.items = newItems
+        items = mutableListOf<TypedRecyclerViewItem>().apply { addAll(typedItems) }
+        DiffUtil.calculateDiff(DiffCallback(oldItems, items)).dispatchUpdatesTo(this)
+        oldItems.clear()
+        oldItems.addAll(items)
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompositeViewHolder {
