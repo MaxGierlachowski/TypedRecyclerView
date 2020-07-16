@@ -4,12 +4,10 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 
-open class TypedRecyclerViewAdapter : RecyclerView.Adapter<CompositeViewHolder>() {
+open class TypedRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     var items = listOf<TypedRecyclerViewItem>()
         private set
-
-    val lifecycleDisposable = DisposableHolder()
 
     private val viewHolderTypes = hashMapOf<Int, TypedViewHolder>()
 
@@ -26,7 +24,7 @@ open class TypedRecyclerViewAdapter : RecyclerView.Adapter<CompositeViewHolder>(
         oldItems.addAll(items)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CompositeViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         val viewHolderType = viewHolderTypes[viewType]
         return viewHolderType?.onCreateViewHolder(parent) ?: throw Exception("No ViewHolderType found for type $viewType")
     }
@@ -35,15 +33,9 @@ open class TypedRecyclerViewAdapter : RecyclerView.Adapter<CompositeViewHolder>(
 
     override fun getItemCount(): Int = items.size
 
-    override fun onBindViewHolder(holder: CompositeViewHolder, position: Int) {
-        holder.disposable.clear()
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         val viewHolderType = viewHolderTypes[getItemViewType(position)]
-        viewHolderType?.onBindViewHolder(items[position], holder, lifecycleDisposable)
-    }
-
-    override fun onDetachedFromRecyclerView(recyclerView: RecyclerView) {
-        lifecycleDisposable.clear()
-        super.onDetachedFromRecyclerView(recyclerView)
+        viewHolderType?.onBindViewHolder(items[position], holder)
     }
 
     private class DiffCallback(private val oldList: List<TypedRecyclerViewItem>, private val newList: List<TypedRecyclerViewItem>) : DiffUtil.Callback() {
