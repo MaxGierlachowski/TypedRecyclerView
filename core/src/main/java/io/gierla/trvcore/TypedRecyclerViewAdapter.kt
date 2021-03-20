@@ -2,6 +2,7 @@ package io.gierla.trvcore
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListUpdateCallback
 import androidx.recyclerview.widget.RecyclerView
 
 open class TypedRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -19,7 +20,23 @@ open class TypedRecyclerViewAdapter : RecyclerView.Adapter<RecyclerView.ViewHold
 
     fun dispatchItems(typedItems: List<TypedRecyclerViewItem>) {
         items = mutableListOf<TypedRecyclerViewItem>().apply { addAll(typedItems) }
-        DiffUtil.calculateDiff(DiffCallback(oldItems, items)).dispatchUpdatesTo(this)
+        DiffUtil.calculateDiff(DiffCallback(oldItems, items)).dispatchUpdatesTo(object : ListUpdateCallback {
+            override fun onInserted(position: Int, count: Int) {
+                notifyItemRangeInserted(position, count)
+            }
+
+            override fun onRemoved(position: Int, count: Int) {
+                notifyItemRangeRemoved(position, count)
+            }
+
+            override fun onMoved(fromPosition: Int, toPosition: Int) {
+                notifyItemMoved(fromPosition, toPosition)
+            }
+
+            override fun onChanged(position: Int, count: Int, payload: Any?) {
+                notifyItemRangeChanged(position, count, true)
+            }
+        })
         oldItems.clear()
         oldItems.addAll(items)
     }

@@ -1,16 +1,10 @@
-buildscript {
-    val kotlin_version by extra("1.3.72")
-    repositories {
-        google()
-        jcenter()
-    }
+plugins {
+    kotlin("android") version io.gierla.utils.Dependencies.kotlinVersion apply false
+    id("com.android.application") version io.gierla.utils.Dependencies.BuildPlugins.androidGradle apply false
 
-    dependencies {
-        classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-        classpath("com.android.tools.build:gradle:${BuildPlugins.androidGradle}")
+    id("org.jetbrains.dokka") version io.gierla.utils.Dependencies.BuildPlugins.dokka apply false
 
-        classpath("org.jetbrains.dokka:dokka-gradle-plugin:${BuildPlugins.dokka}")
-    }
+    id("com.vanniktech.maven.publish") version io.gierla.utils.Dependencies.BuildPlugins.publishPlugin apply false
 }
 
 allprojects {
